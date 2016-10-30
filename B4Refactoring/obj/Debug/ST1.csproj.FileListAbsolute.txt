@@ -1,0 +1,9 @@
+c:\git\ST1\ST1\obj\Debug\ST1.csprojResolveAssemblyReference.cache
+c:\git\ST1\ST1\bin\Debug\ST1.dll
+c:\git\ST1\ST1\bin\Debug\ST1.pdb
+c:\git\ST1\ST1\bin\Debug\ST1.vsix
+c:\git\ST1\ST1\bin\Debug\extension.vsixmanifest
+c:\git\ST1\ST1\obj\Debug\ST1.dll
+c:\git\ST1\ST1\obj\Debug\ST1.pdb
+c:\git\ST1\ST1\obj\Debug\extension.vsixmanifest
+c:\git\ST1\ST1\obj\Debug\ST1.g.resources

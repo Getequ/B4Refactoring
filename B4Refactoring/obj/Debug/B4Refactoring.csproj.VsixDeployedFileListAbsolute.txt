@@ -1,0 +1,8 @@
+C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Маликов Денис\B4Refactoring\1.0\\ST1.dll
+C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Маликов Денис\B4Refactoring\1.0\\extension.vsixmanifest
+C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Маликов Денис\B4Refactoring\1.0\\ST1.pdb
+C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Маликов Денис\B4Refactoring\1.0\\B4Refactoring.dll
+C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Маликов Денис\B4Refactoring\1.0\\B4Refactoring.pdb
+C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Маликов Денис\B4Refactoring\1.0\\Getequ.B4Refactoring.dll
+C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Маликов Денис\B4Refactoring\1.0\\Getequ.B4Refactoring.pdb
+C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Маликов Денис\B4Refactoring\1.0\\FastColoredTextBox.dll
