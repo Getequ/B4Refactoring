@@ -1,4 +1,0 @@
-C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Microsoft\ST1\1.0\\ST1.dll
-C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Microsoft\ST1\1.0\\extension.vsixmanifest
-C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Microsoft\ST1\1.0\\ST1.pdb
-C:\Users\Denis\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Microsoft\ST1\1.0\Resources\\method.png
