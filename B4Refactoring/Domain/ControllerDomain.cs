@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -17,7 +17,7 @@ namespace Getequ.B4Refactoring.Domain
     using CodeGeneration.CSharp;
     using Models;
 
-    class ControllerDomain
+    public class ControllerDomain
     {
         Project _project;
         Dictionary<string, CodeClass2> _classList = new Dictionary<string, CodeClass2>();
@@ -230,6 +230,9 @@ namespace Getequ.B4Refactoring.Domain
             var controllerCode = ClearController(ctl.Class, modification);
 
             var result = new ClassGenerationResult() { EntityName = ctl.Name };
+
+            result.Modification = modification;
+
             result.ServiceClass = svcCode.ClassCode;
             result.ServiceInterface = svcCode.InterfaceCode;
 
@@ -1079,18 +1082,30 @@ namespace Getequ.B4Refactoring.Domain
             // Вставить в сигнатуру метода ДоменСервис при необходимости
             if (dsRequired)
             {
-                var paramStart = Int32.MaxValue;
-                var paramStartLine = Int32.MaxValue;
-                foreach (CodeElement param in method.Parameters)
-                {
-                    if (param.StartPoint.LineCharOffset < paramStart && param.StartPoint.Line < paramStartLine)
-                    {
-                        paramStart = param.StartPoint.LineCharOffset;
-                        paramStartLine = param.StartPoint.Line;
-                    }
-                }
 
-                body[0] = body[0].Insert(paramStart - 1, "IDomainService<" + stinck.Name + "> domainService, ");
+
+
+                if (method.Parameters.Any())
+                {
+
+                    var paramStart = Int32.MaxValue;
+                    var paramStartLine = Int32.MaxValue;
+                    foreach (CodeElement param in method.Parameters)
+                    {
+                        if (param.StartPoint.LineCharOffset < paramStart && param.StartPoint.Line < paramStartLine)
+                        {
+                            paramStart = param.StartPoint.LineCharOffset;
+                            paramStartLine = param.StartPoint.Line;
+                        }
+                    }
+
+
+                    body[0] = body[0].Insert(paramStart - 1, "IDomainService<" + stinck.Name + "> domainService, ");
+                }
+                else
+                {
+                    body[0] = body[0].Replace("()", "(IDomainService<" + stinck.Name + "> domainService)");
+                }
             }
             #endregion
 
@@ -1479,7 +1494,7 @@ namespace Getequ.B4Refactoring.Domain
             public List<Exception> Errors = new List<Exception>();
         }
 
-        private class ControllerModification
+        public class ControllerModification
         {
             public List<MethodConvertResult> ConvertedMethods = new List<MethodConvertResult>();
             public List<string> UsedProperties = new List<string>();
@@ -1490,7 +1505,7 @@ namespace Getequ.B4Refactoring.Domain
             public List<string> AddedNamespaces = new List<string>();
         }
 
-        private class MethodConvertResult
+        public class MethodConvertResult
         {
             public List<string> Code = new List<string>();
             public Tuple<Point, List<string>> ReplaceCode;
