@@ -1385,17 +1385,17 @@ namespace Getequ.B4Refactoring.Domain
 
         /// <summary>Зарегистрировать в Module.cs новые классы</summary>
         /// <param name="deps">список зависимотей (Тип, Интерфейс, Класс)</param>
-        private void AddModuleDependencies(IEnumerable<Tuple<string, string, string>> deps)
+        private void AddModuleDependencies(IEnumerable<Registration> deps)
         {
             var module = new CodeClassWrapper(_classList.First(x => x.Key.EndsWith(".Module")).Value);
 
-            var lineDeps = new Dictionary<int, Tuple<string, string, string>>();
+            var lineDeps = new Dictionary<int, Registration>();
 
             var missedUsings = new List<string>();
 
             foreach (var dep in deps)
             {
-                var method = module.Methods.FirstOrDefault(x => x.Name.Contains("Register" + dep.Item1));
+                var method = module.Methods.FirstOrDefault(x => x.Name.Contains("Register" + dep.Namespace));
                 if (method == null)
                 {
                     method = module.Methods.FirstOrDefault(x => x.Name == "Install");
@@ -1405,13 +1405,15 @@ namespace Getequ.B4Refactoring.Domain
 
             for (int i = 0; i < lineDeps.Count; i++)
             {
-                var dep = lineDeps.OrderByDescending(x => x.Key).Skip(i).First();
-                module.FileCode.Insert(dep.Key, "Container.RegisterTransient<{0}, {1}>();".R(dep.Value.Item2, dep.Value.Item3).Ind(3));
+                var dep        = lineDeps.OrderByDescending(x => x.Key).Skip(i).First();
+                var dependency = dep.Value;
 
-                if (!(module.FileCode.Any(x => x.Contains("using " + _project.DefaultNamespace() + "." + dep.Value.Item1+";")) ||
-                      module.FileCode.Any(x => x.Contains("using " + dep.Value.Item1 + ";"))))
+                module.FileCode.Insert(dep.Key, "Container.Register{2}<{0}, {1}>();".R(dependency.Abstraction, dependency.Implementation, dependency.RegistrationMethod).Ind(3));
+
+                if (!(module.FileCode.Any(x => x.Contains("using " + _project.DefaultNamespace() + "." + dependency.Namespace+";")) ||
+                      module.FileCode.Any(x => x.Contains("using " + dependency.Namespace + ";"))))
                 {
-                    missedUsings.Add("    using " + dep.Value.Item1 + ";");
+                    missedUsings.Add("    using " + dependency.Namespace + ";");
                 }
             }
 
@@ -1429,19 +1431,29 @@ namespace Getequ.B4Refactoring.Domain
         /// <summary>Создать в проекте сгенерированные классы</summary>
         public void AddToProject(ClassGenerationResult generationResult)
         {
-            var IoCdeps = new List<Tuple<string, string, string>>();
+            var IoCdeps = new List<Registration>();
 
             if (!string.IsNullOrEmpty(generationResult.ServiceClass))
             {
                 _project.AddItem("Services", generationResult.EntityName + "Service.cs", generationResult.ServiceClass, new Dictionary<string, object>());
                 _project.AddItem("Services", "I" + generationResult.EntityName + "Service.cs", generationResult.ServiceInterface, new Dictionary<string, object>());
-                IoCdeps.Add(new Tuple<string, string, string>("Services", "I" + generationResult.EntityName + "Service", generationResult.EntityName + "Service"));
+                IoCdeps.Add(new Registration{ 
+                    Namespace          = "Services", 
+                    Abstraction        = "I" + generationResult.EntityName + "Service", 
+                    Implementation     = generationResult.EntityName + "Service", 
+                    RegistrationMethod = "Transient"
+                });
             }
 
             if (!string.IsNullOrEmpty(generationResult.ViewModelClass))
             {
                 _project.AddItem("ViewModel", generationResult.EntityName + "ViewModel.cs", generationResult.ViewModelClass, new Dictionary<string, object>());
-                IoCdeps.Add(new Tuple<string, string, string>("ViewModel", "IViewModel<" + generationResult.EntityName + ">", generationResult.EntityName + "ViewModel"));
+                IoCdeps.Add(new Registration{ 
+                    Namespace          = "ViewModel", 
+                    Abstraction        = generationResult.EntityName, 
+                    Implementation     = generationResult.EntityName + "ViewModel", 
+                    RegistrationMethod = "ViewModel"
+                });
             }
 
             if (!string.IsNullOrEmpty(generationResult.ViewModelInterface))
@@ -1508,6 +1520,17 @@ namespace Getequ.B4Refactoring.Domain
             public CodeMemberType      Type;
 
             public BaseCodeWrapper     Dependency;
+        }
+
+        private class Registration
+        {
+            public string RegistrationMethod;
+
+            public string Abstraction;
+
+            public string Implementation;
+
+            public string Namespace;
         }
         #endregion
     }
