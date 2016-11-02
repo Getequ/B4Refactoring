@@ -1490,7 +1490,6 @@ namespace Getequ.B4Refactoring.Domain
             public string ClassCode;
             public string InterfaceCode;
             public List<string> KnownTypes = new List<string>();
-            public ControllerModification Modification;
             public List<Exception> Errors = new List<Exception>();
         }
 
@@ -1526,15 +1525,6 @@ namespace Getequ.B4Refactoring.Domain
             public List<MethodConvertResult> otherMethods = new List<MethodConvertResult>();
             public List<CodeClassWrapper> nestedClasses = new List<CodeClassWrapper>();
             public Dictionary<string, string> deps = new Dictionary<string, string>();
-        }
-
-        private class MethodDependency
-        {
-            public CodeFunctionWrapper Function;
-
-            public CodeMemberType      Type;
-
-            public BaseCodeWrapper     Dependency;
         }
 
         private class Registration

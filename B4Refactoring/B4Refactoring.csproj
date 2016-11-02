@@ -86,7 +86,6 @@
     <Compile Include="CodeGeneration\CSharp\MethodInfo.cs" />
     <Compile Include="CodeGeneration\CSharp\NamespaceInfo.cs" />
     <Compile Include="CodeGeneration\CSharp\PropertyInfo.cs" />
-    <Compile Include="Domain\ClassStorage.cs" />
     <Compile Include="Domain\CodeModelChecker.cs" />
     <Compile Include="Domain\ControllerDomain.cs" />
     <Compile Include="Domain\RefactorTarget.cs" />
